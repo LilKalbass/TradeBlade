@@ -27,7 +27,7 @@ const letterAnimation = {
     }),
     close: (i) => ({
         y: '100%',
-        opacity: 0, // Fix: make it disappear when closing
+        opacity: 0,
         transition: { duration: 1, ease: [0.60, 0, 0.20, 1], delay: i[1] }
     })
 };
@@ -69,7 +69,6 @@ const NavMobile = ({ containerStyles }) => {
             <aside className={`${isOpen ? 'right-0' : '-right-full'} bg-[#6A54FF] fixed z-20 w-full p-10 top-0 bottom-0 transition-all duration-500`}>
                 <div className="flex flex-col items-center justify-between h-full pb-20">
 
-                    {/* Close Button */}
                     <div
                         className="hover:scale-110 rounded-2xl cursor-pointer text-4xl text-white absolute w-10 h-10 right-8 top-8 flex items-center justify-center"
                         onClick={() => setIsOpen(false)}
@@ -77,7 +76,6 @@ const NavMobile = ({ containerStyles }) => {
                         <IoCloseOutline />
                     </div>
 
-                    {/* Animate Navigation Menu */}
                     <AnimatePresence>
                         {isOpen && (
                             <motion.nav variants={heightAnimation} initial="initial" animate="open" exit="close" className="flex flex-col gap-y-8">
@@ -97,7 +95,6 @@ const NavMobile = ({ containerStyles }) => {
                         )}
                     </AnimatePresence>
 
-                    {/* Buttons */}
                     <div className="flex items-center gap-x-3">
                         <button className="cursor-pointer px-[24px] py-[12px] border border-2 border-cyan-300 rounded-md text-cyan-300 text-[14px] font-medium bg-cyan-900/50 uppercase hover:text-black hover:bg-cyan-300 transition-all duration-600">
                             Вход
