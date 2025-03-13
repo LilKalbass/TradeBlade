@@ -1,9 +1,68 @@
 'use client'
 import React, { useState } from "react";
+import {motion} from "framer-motion";
 
 import { RiMenu2Line, } from "react-icons/ri";
 import { IoCloseOutline,} from "react-icons/io5";
 import Link from "next/link";
+
+const heightAnimation = {
+    initial: {
+        height: 0
+    },
+    open: {
+        height: '85vh',
+        transition: {
+            duration: 1,
+            ease: [0.75, 0, 0.23, 1]
+        }
+    },
+    close: {
+        height: 0,
+        transition: {
+            duration: 1,
+            ease: [0.75, 0, 0.23, 1]
+        }
+    }
+}
+
+const letterAnimation = {
+    initial: {
+        y: '100%',
+        opacity: 0
+    },
+    enter: (i) => ({
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 1,
+            ease: [0.60, 0, 0.20, 1],
+            delay: i[0]
+        }
+    }),
+    close: (i) => ({
+        y: '100%',
+        opacity: 1,
+        transition: {
+            duration: 1,
+            ease: [0.60, 0, 0.20, 1],
+            delay: i[1]
+        }
+    })
+}
+
+const getWordByLetter = (name) => {
+    let word = []
+    name.split('').forEach((letter, index) => {
+        word.push(
+            <motion.span key={index} variants={letterAnimation} initial='initial' animate='enter' exit='exit'
+                         custom={[index * 0.06, (name.length - index) * 0.01]}>
+                {letter}
+            </motion.span>
+        )
+    })
+    return word
+}
 
 const links = [
     { href: '/', text: 'Цифры' },
@@ -33,7 +92,7 @@ const NavMobile = ({ containerStyles, iconStyles, linkStyles }) => {
                     >
                         <IoCloseOutline/>
                     </div>
-                    <div className='flex flex-col gap-y-8 text-green'>
+                    <motion.nav variants={heightAnimation} initial='initial' animate='open' exit='close' className='flex flex-col gap-y-8'>
                         {links.map((link) => {
                             return (
                                 <Link
@@ -42,11 +101,13 @@ const NavMobile = ({ containerStyles, iconStyles, linkStyles }) => {
                                     className='flex items-center text-white font-medium justify-center hover:scale-110'
                                     onClick={() => setIsOpen(!isOpen)}
                                 >
-                                    <div className='text-[24px]'>{link.text}</div>
+                                    <div className='text-[24px]'>
+                                        {getWordByLetter(link.text)}
+                                    </div>
                                 </Link>
                             )
                         })}
-                    </div>
+                    </motion.nav>
                     <div className='flex items-center gap-x-3'>
                         <button
                             className='cursor-pointer px-[24px] py-[12px] border border-2 border-cyan-300 rounded-md text-cyan-300 text-[14px] font-medium bg-cyan-900/50 uppercase hover:text-black hover:bg-cyan-300 transition-all duration-600'>
